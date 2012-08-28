@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# This script is intended to be used as:
-# alias cdd=". /<full path>/cder.sh"
 
+# This script is intended to be used thusly:
+# alias cdd="/path/to/cdd.sh"
 
 level=0
 dir_count=0
@@ -15,7 +15,7 @@ erase=0
 
 function partial_match {
 	local tmp_dir=`pwd`
-	if [ "$tmp_dir" == "/" ]; then 
+	if [ "$tmp_dir" == "/" ]; then
 		tmp_dir=""
 	fi
 
@@ -38,7 +38,7 @@ function get_dirs {
 			((dir_count++))
 		fi
 	done
-	
+
 	#store the rewind marker at dir_count + 2
 	max_dir_count=$(($dir_count+2))
 }
@@ -58,28 +58,28 @@ function display_str {
 
 # Display the current directory or erase the old directory
 function print_dir {
-	
-	if [ $1 == 1 ] ; then	
+
+	if [ $1 == 1 ] ; then
 		# Rewind up max_dir_count lines
 		echo -e "\033[${max_dir_count}A"
 	else
 		get_dirs
 		current_dir=`pwd`
 	fi
-	
+
 	erase=$1
-	
+
 	display_str "$current_dir"
 
 	for ((j = 0; j < $dir_count; j++)); do
-		if ((j == level)); then 
+		if ((j == level)); then
 			display_str "* ${dirs[$j]}"
 		else
 			display_str "  ${dirs[$j]}"
 		fi
 	done
 
-	if [ $1 == 1 ] ; then	
+	if [ $1 == 1 ] ; then
 		# Rewind up max_dir_count lines
 		echo -e "\033[${max_dir_count}A"
 	fi
@@ -107,7 +107,7 @@ function print_instructions {
 	if [ $1 == 1 ] ; then
 		echo -e "\033[11A"
 	fi
-	
+
 	erase=$1
 	display_str "cdd is a directory navigation tool."
 	display_str "The following stdin input options are available:"
@@ -127,7 +127,7 @@ function print_instructions {
 }
 
 redraw=1
-	
+
 while [ 1 ]; do
 
 	if [ $redraw == 1 ]; then
@@ -137,7 +137,7 @@ while [ 1 ]; do
 	clear_dir=1
 
 	read -r -s -n 1 C
-	
+
 	case $C in
 	"h") # Left
 		# we are traversing "backwards", so instruct search directory to occur
@@ -170,7 +170,7 @@ while [ 1 ]; do
 		if [ "$current_dir" == "/" ]; then
 			enter_dir="/${dirs[$level]}"
 		fi
-		
+
 		# if we are traversing "forwards", ie: Entering /ape with a seek_dir of /ape/moose
 		if partial_match "${dirs[$level]}"; then
 			search_dir=1
@@ -182,7 +182,7 @@ while [ 1 ]; do
 		fi
 		#reset the current selection index
 		level=0
-		
+
 		;;
 	"q" | $'\e')
 		cd "$initial_dir"
@@ -193,7 +193,7 @@ while [ 1 ]; do
 		export OLDPWD=$initial_dir
 		break
 		;;
-	*) 
+	*)
 		print_dir 1
 		print_instructions 0
 		read -r -s -n 1 C
@@ -201,10 +201,9 @@ while [ 1 ]; do
 		clear_dir=0
 		;;
 	esac
-	
+
 	if [ $clear_dir == 1 ]; then
 		print_dir 1
 	fi
-	
-done
 
+done
