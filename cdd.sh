@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script is intended to be used as:
 # alias cdd=". /<full path>/cder.sh"
 
