@@ -142,7 +142,7 @@ while [ 1 ]; do
 	"h") # Left
 		# we are traversing "backwards", so instruct search directory to occur
 		search_dir=1
-		cd ..
+		builtin cd ..
 		level=0
 		;;
 	"j") # Down
@@ -174,9 +174,9 @@ while [ 1 ]; do
 		# if we are traversing "forwards", ie: Entering /ape with a seek_dir of /ape/moose
 		if partial_match "${dirs[$level]}"; then
 			search_dir=1
-			cd "$enter_dir"
+			builtin cd "$enter_dir"
 		else
-			cd "$enter_dir"
+			builtin cd "$enter_dir"
 			# This isn't forwards, so set the new seek_dir to `pwd`/
 			seek_dir="`pwd`/"
 		fi
@@ -185,7 +185,7 @@ while [ 1 ]; do
 		
 		;;
 	"q" | $'\e')
-		cd "$initial_dir"
+		builtin cd "$initial_dir"
 		export OLDPWD=$old_dir
 		break
 		;;
