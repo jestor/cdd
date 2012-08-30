@@ -10,7 +10,7 @@ A simple directory navigation utility for bash
 
 ## Installation
 
-Drop `cdd.sh` somewhere onto your filesystem and add the following alias to your ~/.bash_profile: `alias cdd="path/to/cdd.sh"`
+Drop `cdd.sh` somewhere onto your filesystem and add the following alias to your ~/.bash_profile: `alias cdd=". path/to/cdd.sh"`
 
 ## Usage
 
